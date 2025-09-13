@@ -1,28 +1,18 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Button } from 'react-native-paper';
 
-interface Props {
-  title: string;
+type Props = {
+  label: string;
   onPress: () => void;
-}
+  loading?: boolean;
+};
 
-const PrimaryButton: React.FC<Props> = ({ title, onPress }) => {
+const PrimaryButton: React.FC<Props> = ({ label, onPress, loading }) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text style={styles.text}>{title}</Text>
-    </TouchableOpacity>
+    <Button mode="contained" onPress={onPress} contentStyle={{ paddingVertical: 8 }} loading={loading}>
+      {label}
+    </Button>
   );
 };
 
 export default PrimaryButton;
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: '#007bff',
-    paddingVertical: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  text: { color: 'white', fontSize: 16, fontWeight: '600' },
-});

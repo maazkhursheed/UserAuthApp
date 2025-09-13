@@ -1,16 +1,23 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { useAuth } from '../context/AuthContext';
+import { View, StyleSheet } from 'react-native';
+import { Card, Title, Paragraph } from 'react-native-paper';
 import PrimaryButton from '../components/PrimaryButton';
+import { useAuth } from '../context/AuthContext';
 
 const HomeScreen = () => {
   const { user, logout } = useAuth();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome, {user?.name}</Text>
-      <Text style={styles.subtitle}>{user?.email}</Text>
-      <PrimaryButton title="Logout" onPress={logout} />
+      <Card style={styles.card}>
+        <Card.Content>
+          <Title>Welcome, {user?.name}</Title>
+          <Paragraph>{user?.email}</Paragraph>
+          <View style={{ marginTop: 16 }}>
+            <PrimaryButton label="Logout" onPress={logout} />
+          </View>
+        </Card.Content>
+      </Card>
     </View>
   );
 };
@@ -18,7 +25,6 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-  title: { fontSize: 26, fontWeight: 'bold', marginBottom: 10 },
-  subtitle: { fontSize: 18, marginBottom: 30 },
+  container: { flex: 1, justifyContent: 'center', padding: 16 },
+  card: { borderRadius: 12, padding: 8 }
 });

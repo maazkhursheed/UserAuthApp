@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { getUser, saveUser, clearUser, getUsers, saveUsers } from '../storage/storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getUserDB, saveUserDB } from '../storage/storage';
 
 export type User = {
   name: string;
@@ -15,56 +16,72 @@ type AuthContextType = {
   logout: () => Promise<void>;
 };
 
-const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AUTH_USER_KEY = 'AUTH_USER_V1';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const init = async () => {
-      const u = await getUser();
-      if (u) setUser(u);
-      setLoading(false);
+    const load = async () => {
+      try {
+        const val = await AsyncStorage.getItem(AUTH_USER_KEY);
+        if (val) setUser(JSON.parse(val));
+      } catch (e) {
+        console.warn('Failed to load user', e);
+      } finally {
+        setLoading(false);
+      }
     };
-    init();
+    load();
   }, []);
 
   const login = async (email: string, password: string) => {
-    const users = await getUsers();
-    const found = users.find((u) => u.email === email && u.password === password);
-    if (!found) {
-      return { ok: false, error: 'Invalid credentials' };
+    try {
+      const users = await getUserDB();
+      const found = users.find((u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+      if (!found) return { ok: false, error: 'Incorrect credentials' };
+
+      setUser(found);
+      await AsyncStorage.setItem(AUTH_USER_KEY, JSON.stringify(found));
+      return { ok: true };
+    } catch (e) {
+      return { ok: false, error: 'Login failed' };
     }
-    await saveUser(found);
-    setUser(found);
-    return { ok: true };
   };
 
   const signup = async (name: string, email: string, password: string) => {
-    const users = await getUsers();
-    const exists = users.find((u) => u.email === email);
-    if (exists) {
-      return { ok: false, error: 'Email already exists' };
+    try {
+      const users = await getUserDB();
+      if (users.some((u) => u.email.toLowerCase() === email.toLowerCase())) {
+        return { ok: false, error: 'Email already used' };
+      }
+      const newUser: User = { name, email, password };
+      users.push(newUser);
+      await saveUserDB(users);
+      setUser(newUser);
+      await AsyncStorage.setItem(AUTH_USER_KEY, JSON.stringify(newUser));
+      return { ok: true };
+    } catch (e) {
+      return { ok: false, error: 'Signup failed' };
     }
-    const newUser: User = { name, email, password };
-    users.push(newUser);
-    await saveUsers(users);
-    await saveUser(newUser);
-    setUser(newUser);
-    return { ok: true };
   };
 
   const logout = async () => {
-    await clearUser();
     setUser(null);
+    try {
+      await AsyncStorage.removeItem(AUTH_USER_KEY);
+    } catch (e) {
+      // ignore
+    }
   };
 
-  return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, loading, login, signup, logout }}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
+  return ctx;
+};
