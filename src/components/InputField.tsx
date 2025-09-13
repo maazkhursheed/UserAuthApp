@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import EyeIcon from '../assets/icons/eye-open.svg';
+import EyeOffIcon from '../assets/icons/eye-close.svg';
 
 type Props = {
   label: string;
@@ -38,12 +39,7 @@ const InputField: React.FC<Props> = ({
         right={
            secure && showToggle ? (
             <TextInput.Icon
-              icon={() => (
-                <MaterialCommunityIcons
-                  name={visible ? 'eye-off' : 'eye'}
-                  size={20}
-                />
-              )}
+              icon={() => (visible ? <EyeIcon width={20} height={20} /> : <EyeOffIcon width={20} height={20} />)}
               onPress={() => setVisible((v) => !v)}
             />
           ) : undefined

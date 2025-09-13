@@ -1,39 +1,55 @@
-# React Native User Authentication App (TypeScript)
+# 📱 React Native User Authentication App (TypeScript)
 
-## Overview
-This project implements a **User Authentication App** with **Login, Signup, and Home screens** using:
-- React Native (TypeScript, bare workflow — non-Expo)
-- React Context API for authentication state management
-- React Navigation v6
-- AsyncStorage for persistence
-- Reusable UI components
-- Password visibility toggle (bonus feature)
+A modern **User Authentication App** built with **React Native (TypeScript, bare workflow)** featuring **Login, Signup, and Home screens**.  
+This project demonstrates **authentication state management, reusable components, persistence, and modern UI practices**.
 
 ---
 
-## Features
+## 🚀 Tech Stack
+- ⚛️ **React Native** (TypeScript, bare workflow — non-Expo)  
+- 🔑 **React Context API** for authentication  
+- 🧭 **React Navigation v6**  
+- 💾 **AsyncStorage** for persistence  
+- 🎨 **Reusable UI components** (`InputField`, `PrimaryButton`)  
+- 👁 **Password visibility toggle**  
+
+---
+
+## ✨ Features
 1. **AuthContext**
    - `login(email, password)`
    - `signup(name, email, password)`
    - `logout()`
-   - `user` state and persistence with AsyncStorage
+   - Persistent `user` state with AsyncStorage
 
 2. **Screens**
-   - Login (with validation and error messages)
-   - Signup (with validation for missing fields, email format, password length)
-   - Home (displays user info, logout button)
+   - 🔐 **Login** – validation + error messages  
+   - 📝 **Signup** – validation (required fields, email format, password length)  
+   - 🏠 **Home** – displays user info + logout  
 
-3. **UI**
-   - Reusable `InputField` with error handling + password toggle
-   - Reusable `PrimaryButton`
-   - Consistent styling, keyboard handling, safe areas
+3. **UI/UX**
+   - Reusable **InputField** with error handling + password toggle  
+   - **PrimaryButton** for consistent actions  
+   - Keyboard aware, safe area friendly  
 
 4. **Persistence**
-   - AsyncStorage keeps the user logged in even after restart
+   - Keeps the user logged in even after app restart  
 
 ---
 
-## Installation & Setup
+## 🖼️ App Screenshots  
+
+| **Home** | **Login** | **Login Error** |
+|----------|-----------|-----------------|
+| ![Home](./assets/screenshots/HomeScreen.png) | ![Login](./assets/screenshots/LoginScreen.png) | ![Login Error](./assets/screenshots/LoginError.png) |
+
+| **Signup with Eye Closed** | **Signup Error** |
+|-----------------------------|------------------|
+| ![Signup Eye Closed](./assets/screenshots/SignUpEyeClosed.png) | ![Signup Error](./assets/screenshots/SignUpError.png) |
+
+---
+
+## ⚡ Installation & Setup
 
 ```bash
 # Create project (bare RN with TypeScript)
@@ -49,3 +65,32 @@ npm install react-native-vector-icons
 
 # iOS specific
 cd ios && pod install && cd ..
+````
+
+---
+
+## 🏃 Running the App
+
+```bash
+# Start Metro
+npx react-native start
+
+# Run on Android
+npx react-native run-android
+
+# Run on iOS
+npx react-native run-ios
+```
+
+---
+
+## 📌 Future Improvements
+* 🔐 Add real backend API integration
+
+---
+
+💡 *This project is designed as a clean starter for authentication flows in React Native apps.* 🚀
+
+```
+
+---
