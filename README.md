@@ -41,11 +41,11 @@ This project demonstrates **authentication state management, reusable components
 
 | **Home** | **Login** | **Login Error** |
 |----------|-----------|-----------------|
-| ![Home](./assets/screenshots/HomeScreen.png) | ![Login](./assets/screenshots/LoginScreen.png) | ![Login Error](./assets/screenshots/LoginError.png) |
+| ![Home](./src/assets/screenshots/HomeScreen.png) | ![Login](./src/assets/screenshots/LoginScreen.png) | ![Login Error](./src/assets/screenshots/LoginError.png) |
 
 | **Signup with Eye Closed** | **Signup Error** |
 |-----------------------------|------------------|
-| ![Signup Eye Closed](./assets/screenshots/SignUpEyeClosed.png) | ![Signup Error](./assets/screenshots/SignUpError.png) |
+| ![Signup Eye Closed](./src/assets/screenshots/SignUpEyeClosed.png) | ![Signup Error](./src/assets/screenshots/SignUpError.png) |
 
 ---
 
