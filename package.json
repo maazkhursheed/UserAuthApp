@@ -8,11 +8,15 @@
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint-fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
     "start": "react-native start",
-    "test": "jest"
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\"",
+    "test": "jest",
+    "prepare": "husky install"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json}": [
+    "src/**/*.{js,jsx,ts,tsx,json,md}": [
       "yarn run format-code",
+      "prettier --write",
+      "eslint --fix",
       "git add"
     ]
   },
